@@ -1,5 +1,11 @@
+import imp
+
 import arcpy
+
 import unique
+
+# Used during development, force reload
+imp.reload(unique)
 
 
 class Toolbox(object):
@@ -25,7 +31,40 @@ class UniqueValuesDomain(object):
 
     def getParameterInfo(self):
         """Define parameter definitions"""
-        params = None
+
+        # First parameter
+        param0 = arcpy.Parameter(
+            displayName="Input Features",
+            name="in_features",
+            datatype="GPFeatureLayer",
+            parameterType="Required",
+            direction="Input")
+
+        # Second parameter
+        param1 = arcpy.Parameter(
+            displayName="Values Field",
+            name="values_field",
+            datatype="Field",
+            parameterType="Required",
+            direction="Input")
+
+        param1.enabled = False
+        param1.filter.list = ["Short", "Long", "Float", "Double", "Text",
+                              "Date"]
+        param1.parameterDependencies = [param0.name]
+
+        # Second parameter
+        param2 = arcpy.Parameter(
+            displayName="Geodatabase",
+            name="geodatabase",
+            datatype="DEWorkspace",
+            parameterType="Required",
+            direction="Input")
+
+        param2.filter.list = ["Local Database", "Remote Database"]
+
+        params = [param0, param1, param2]
+
         return params
 
     def isLicensed(self):
