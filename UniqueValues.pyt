@@ -2,7 +2,7 @@ import imp
 
 import arcpy
 
-import unique_pack.unique as unique
+import unique.core as unique
 
 # Used during development, force reload
 imp.reload(unique)
