@@ -36,7 +36,7 @@ class UniqueValuesDomain(object):
         param0 = arcpy.Parameter(
             displayName="Input Features",
             name="in_features",
-            datatype="GPFeatureLayer",
+            datatype="GPTableView",
             parameterType="Required",
             direction="Input")
 
