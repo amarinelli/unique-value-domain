@@ -2,7 +2,7 @@ import imp
 
 import arcpy
 
-import unique
+import unique_pack.unique as unique
 
 # Used during development, force reload
 imp.reload(unique)
@@ -99,4 +99,13 @@ class UniqueValuesDomain(object):
 
     def execute(self, parameters, messages):
         """The source code of the tool."""
+
+        # Gather parameters
+        input_values = parameters[0].valueAsText
+        field = parameters[1].valueAsText
+
+        # Generate unique values from feature class > field
+        values = unique.get_unique_feature(input_values, field)
+        arcpy.AddMessage("Values: " + str(values))
+
         return
