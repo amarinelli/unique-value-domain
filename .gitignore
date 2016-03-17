@@ -113,3 +113,6 @@ $RECYCLE.BIN/
 
 #ArcGIS
 *.pyt.xml
+
+# Virtual Env
+venv
