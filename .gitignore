@@ -108,11 +108,14 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-#PyCharm
+# PyCharm
 .idea
 
-#ArcGIS
+# ArcGIS
 *.pyt.xml
 
 # Virtual Env
 venv
+
+# Misc
+notes.txt
