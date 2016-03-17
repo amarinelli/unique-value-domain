@@ -1,0 +1,1 @@
+Test Suite organization credited to [Repository Structure and Python](http://www.kennethreitz.org/essays/repository-structure-and-python)
