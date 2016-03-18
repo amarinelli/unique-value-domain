@@ -37,7 +37,7 @@ class UniqueValuesDomain(object):
         # First parameter
         param0 = arcpy.Parameter(
             displayName="Input Features",
-            name="in_features",
+            name="in_table",
             datatype="GPTableView",
             parameterType="Required",
             direction="Input")
@@ -45,7 +45,7 @@ class UniqueValuesDomain(object):
         # Second parameter
         param1 = arcpy.Parameter(
             displayName="Values Field",
-            name="values_field",
+            name="in_field",
             datatype="Field",
             parameterType="Required",
             direction="Input")
@@ -118,13 +118,13 @@ class UniqueValuesDomain(object):
         """The source code of the tool."""
 
         # Gather parameters
-        input_values = parameters[0].valueAsText
-        field = parameters[1].valueAsText
+        in_table = parameters[0].valueAsText
+        in_field = parameters[1].valueAsText
         geodatabase = parameters[2].valueAsText
         domain_name = parameters[3].valueAsText
 
         # Generate unique values from feature class > field
-        values = unique.get_unique_feature(input_values, field)
+        values = unique.get_unique_feature(in_table, in_field)
         arcpy.AddMessage("Values: " + str(values))
 
         return
