@@ -1,5 +1,4 @@
 import imp
-
 import re
 
 import arcpy
@@ -63,6 +62,7 @@ class UniqueValuesDomain(object):
             parameterType="Required",
             direction="Input")
 
+        param2.defaultEnvironmentName = "workspace"
         param2.filter.list = ["Local Database", "Remote Database"]
 
         # Fourth parameter
@@ -107,10 +107,9 @@ class UniqueValuesDomain(object):
                         "Editor Tracking fields don't need domains")
 
         if parameters[3].value:
-            if re.match("^[a-zA-Z0-9_-]*$", parameters[3].valueAsText)
-                parameters[3].setErrorMessage("Domain name should only " \
-                                              "contain letters, numbers, " \
-                                              "underscores, and hyphens")
+            if not re.match("^[a-zA-Z0-9_\-]*$", parameters[3].valueAsText):
+                parameters[3].setErrorMessage(
+                    "Domain name should only contain letters, numbers, underscores, and hyphens")
 
         return
 
@@ -126,5 +125,7 @@ class UniqueValuesDomain(object):
         # Generate unique values from feature class > field
         values = unique.get_unique_feature(in_table, in_field)
         arcpy.AddMessage("Values: " + str(values))
+        arcpy.AddMessage(geodatabase)
+        arcpy.AddMessage(domain_name)
 
         return
