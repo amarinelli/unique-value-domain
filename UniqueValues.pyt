@@ -1,5 +1,7 @@
 import imp
 
+import re
+
 import arcpy
 
 import unique.core as unique
@@ -53,7 +55,7 @@ class UniqueValuesDomain(object):
                               "Date"]
         param1.parameterDependencies = [param0.name]
 
-        # Second parameter
+        # Third parameter
         param2 = arcpy.Parameter(
             displayName="Geodatabase",
             name="geodatabase",
@@ -63,7 +65,15 @@ class UniqueValuesDomain(object):
 
         param2.filter.list = ["Local Database", "Remote Database"]
 
-        params = [param0, param1, param2]
+        # Fourth parameter
+        param3 = arcpy.Parameter(
+            displayName="Domain name",
+            name="domain_name",
+            datatype="GPString",
+            parameterType="Required",
+            direction="Input")
+
+        params = [param0, param1, param2, param3]
 
         return params
 
@@ -95,6 +105,13 @@ class UniqueValuesDomain(object):
                 if str(parameters[1].value) in editor_fields:
                     parameters[1].setErrorMessage(
                         "Editor Tracking fields don't need domains")
+
+        if parameters[3].value:
+            if re.match("^[a-zA-Z0-9_-]*$", parameters[3].valueAsText)
+                parameters[3].setErrorMessage("Domain name should only " \
+                                              "contain letters, numbers, " \
+                                              "underscores, and hyphens")
+
         return
 
     def execute(self, parameters, messages):
@@ -103,6 +120,8 @@ class UniqueValuesDomain(object):
         # Gather parameters
         input_values = parameters[0].valueAsText
         field = parameters[1].valueAsText
+        geodatabase = parameters[2].valueAsText
+        domain_name = parameters[3].valueAsText
 
         # Generate unique values from feature class > field
         values = unique.get_unique_feature(input_values, field)
